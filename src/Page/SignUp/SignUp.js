@@ -62,7 +62,6 @@ const SignUp = () => {
                 <form className="w-full max-w-md" onSubmit={handleSubmit(handleSignUp)}>
                 {
                         preview ? <img className="object-cover w-24 h-24 mx-auto rounded-full" src={preview} alt="user avatar" /> : <FaUserAlt className='w-20 h-20 mx-auto'/>
-                    
                 }
                         <div className="flex items-center justify-center mt-6">
                             <Link to="#" className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white">

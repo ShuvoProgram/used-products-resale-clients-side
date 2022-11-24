@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HiThumbDown } from "react-icons/hi";
-import './Error.css';
 import PrimaryButton from '../../../Component/Button/PrimaryButton';
 
 const Error = () => {
