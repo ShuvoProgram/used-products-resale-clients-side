@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { AiFillEye, AiFillEyeInvisible, } from "react-icons/ai";
 import { FaUserAlt } from "react-icons/fa";
 import { AuthContext } from '../../Context/UseContext';
 import { getImageUrl } from '../../api/ImageUpload';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SmallSpinner from '../../Component/Spinner/SmallSpinner';
 
 const SignUp = () => {
@@ -15,9 +16,7 @@ const SignUp = () => {
     const [showPass, setShowPass] = useState(false);
     const [confirmShowPass, setConfirmShowPass] = useState(false);
     const [preview, setPreview] = useState();
-    const [btnDisabled, setBtnDisabled] = useState(true);
-    const [role, setRole] = useState('');
-    // const [createdUserEmail, setCreatedUserEmail] = useState('');
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
     // const [token] = UseToken(createdUserEmail);
     // const navigate = useNavigate();
 
@@ -29,34 +28,52 @@ const SignUp = () => {
     const handleSignUp = (data) => {
         setSignUPError('')
         console.log(data);
-        // const imgFile = data.img;
-        // console.log(imgFile);
-        // getImageUrl(imgFile)
-        // .then(res => res.json())
-        // .then(imgData => {
-        //     console.log(imgData)
-            // setPreview(imgData);
+        getImageUrl(preview[0])
             createUser(data.email, data.password)
                 .then(result => {
                     const user = result.user;
                     console.log(user)
+                    console.log(user.email)
                     toast('User Created Successfully.')
                     const userInfo = {
                         displayName: data.name,
-                        // photoUrl: imgData
+                        phoneNumber: data.phone
+
                     }
-                    // updateUserProfile(userInfo)
-                    //     .then(() => {
-                    //         saveUser(data.name)
-                    //     })
-                    //     .catch(err => console.log(err))
+                    console.log(userInfo);
+                    updateUserProfile(userInfo)
+                        .then(() => {
+                            const profileInfo = {
+                                name: user.displayName,
+                                email: user.email,
+                                phone: user.phoneNumber,
+                                role: data.role
+                            }
+                            saveUser(profileInfo)
+                        })
+                        .catch(err => console.log(err))
                 })
                 .catch(err => {
                     setSignUPError(err.message)
                     setLoading(true)
                     console.error(err)
                 })
+        
         // })
+    }
+
+    const saveUser = (userProfile) => {
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(userProfile)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setCreatedUserEmail(userProfile.email);
+            })
     }
 
     function handleChange(e) {
@@ -64,9 +81,6 @@ const SignUp = () => {
         setPreview(URL.createObjectURL(e.target.files[0]));
     }
 
-    function handleDisable(e) {
-        setBtnDisabled(e.target.value === "")
-    }
 
     return (
         <section className="bg-white dark:bg-gray-900">
@@ -80,28 +94,6 @@ const SignUp = () => {
                                 sign up
                             </Link>
                         </div>
-                    <div className="mt-6">
-                        <h1 className="text-gray-500 dark:text-gray-300">Select type of account</h1>
-
-                        <div className="mt-3 md:flex md:items-center md:-mx-2">
-                            <div className='relative'>
-                                <input type="submit" value="client" className="flex justify-center w-full px-14 py-3 text-white bg-blue-500 rounded-md md:w-auto md:mx-2 focus:outline-none cursor-pointer" onClick={handleDisable}/>
-                                <div className='absolute left-5 bottom-3'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className='relative'>
-                                <input type='submit' value='worker' className={`flex justify-center w-full px-14 py-3 mt-4 text-blue-500 border border-blue-500 rounded-md md:mt-0 md:w-auto md:mx-2 dark:border-blue-400 dark:text-blue-400 focus:outline-none cursor-pointer`} disabled/>
-                                    <div className='absolute left-5 bottom-3'>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
                         <div className="relative flex items-center mt-8">
                             <span className="absolute">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -117,7 +109,17 @@ const SignUp = () => {
                         </div>
                         {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
 
-                        {/* <label htmlFor="dropzone-file" className="flex items-center px-3 py-3 mx-auto mt-6 text-center bg-white border-2 border-dashed rounded-md cursor-pointer dark:border-gray-600 dark:bg-gray-900">
+                    <div className='relative flex items-center mt-8'>
+                        <span className="absolute">
+                            <SupervisedUserCircleIcon className='w-6 h-6 mx-3 text-gray-300 dark:text-gray-500'/>
+                        </span>
+                        <select {...register("role")} className="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
+                            <option value="buyer">Buyer</option>
+                            <option value="seller">Seller</option>
+                        </select>
+                        </div>
+                    
+                        <label htmlFor="dropzone-file" className="flex items-center px-3 py-3 mx-auto mt-6 text-center bg-white border-2 border-dashed rounded-md cursor-pointer dark:border-gray-600 dark:bg-gray-900">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                             </svg>
@@ -131,7 +133,7 @@ const SignUp = () => {
                             className="hidden" 
                             onChange={handleChange}
                             />
-                        </label> */}
+                        </label>
 
                         <div className="relative flex items-center mt-6">
                             <span className="absolute">
@@ -143,12 +145,12 @@ const SignUp = () => {
                             <input type="email"
                             {...register("email", {
                                 required: true,
-                                pattern: { value: !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: 'Please Provide Validate Email' }
+                                // pattern: { value: !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, message: 'Please Provide Validate Email' }
                             })}
                             className="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address"/>
                         </div>
                         {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
-
+                    
                         <div className="relative flex items-center mt-4">
                             <span className="absolute">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -160,7 +162,7 @@ const SignUp = () => {
                             {...register("password", {
                                 required: "Password is required",
                                 minLength: { value: 6, message: "Password must be 6 characters long" },
-                                pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: 'Password must have uppercase, number and special characters' }
+                                // pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: 'Password must have uppercase, number and special characters' }
                             })}
                             className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password"/>
                         <div className="absolute right-3 top-4" onClick={() => setShowPass(!showPass)}>

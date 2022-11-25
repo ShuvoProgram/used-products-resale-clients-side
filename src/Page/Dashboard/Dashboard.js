@@ -3,8 +3,7 @@ import { AuthContext } from '../../Context/UseContext';
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
-
-
+    console.log(user)
     return (
         <div className='h-screen text-gray-700 dark:text-white flex flex-col justify-center items-center pb-16'>
             <div className='flex justify-center items-center'>
@@ -18,7 +17,6 @@ const Dashboard = () => {
             <div className='flex justify-center text-gray-500 items-center mt-4'>
                 <p className='text-3xl font-medium'>User Dashboard</p>
             </div>
-            <label htmlFor="my-drawer" className="mt-10 btn btn-primary drawer-button">Open Menu</label>
         </div>
     );
 };

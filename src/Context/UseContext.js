@@ -31,12 +31,9 @@ const UseContext = ({ children }) => {
     }
 
     //   2. Update Name
-    const updateUserProfile = (name, photo) => {
+    const updateUserProfile = (userInfo) => {
         setLoading(true)
-        return updateProfile(auth.currentUser, {
-            displayName: name,
-            photoURL: photo,
-        })
+        return updateProfile(auth.currentUser, userInfo)
     }
 
     //   3. Email Verify

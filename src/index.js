@@ -6,14 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import UseContext from './Context/UseContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import 'react-day-picker/dist/style.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// Create a client
+const queryClient = new QueryClient()
+
 root.render(
   <React.StrictMode>
-    <UseContext>
-    <App />
-      <ToastContainer />
-   </UseContext>
+    <QueryClientProvider client={queryClient}>
+      <UseContext>
+        <App />
+        <ToastContainer />
+      </UseContext>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
