@@ -3,6 +3,7 @@ import { AuthContext } from '../../Context/UseContext';
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
+    
     console.log(user)
     return (
         <div className='h-screen text-gray-700 dark:text-white flex flex-col justify-center items-center pb-16'>
