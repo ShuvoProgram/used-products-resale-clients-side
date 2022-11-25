@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillEye, AiFillEyeInvisible, } from "react-icons/ai";
 import { FaUserAlt } from "react-icons/fa";
@@ -8,6 +7,7 @@ import { AuthContext } from '../../Context/UseContext';
 import { getImageUrl } from '../../api/ImageUpload';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SmallSpinner from '../../Component/Spinner/SmallSpinner';
+import toast from 'react-hot-toast';
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -27,14 +27,16 @@ const SignUp = () => {
 
     const handleSignUp = (data) => {
         setSignUPError('')
-        console.log(data);
-        getImageUrl(preview[0])
+        const image = data.image[0];
+
+        console.log(image);
+        getImageUrl(image)
             createUser(data.email, data.password)
                 .then(result => {
                     const user = result.user;
                     console.log(user)
                     console.log(user.email)
-                    toast('User Created Successfully.')
+                    toast.success('User Created Successfully.')
                     const userInfo = {
                         displayName: data.name,
                         phoneNumber: data.phone
@@ -127,7 +129,7 @@ const SignUp = () => {
                             <h2 className="mx-3 text-gray-400">Profile Photo</h2>
 
                             <input id="dropzone-file" type="file"
-                            {...register("img", {
+                            {...register("image", {
                                 required: "Upload an Image"
                             })}
                             className="hidden" 

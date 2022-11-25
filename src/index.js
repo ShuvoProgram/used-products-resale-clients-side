@@ -4,8 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UseContext from './Context/UseContext';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import 'react-day-picker/dist/style.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -18,7 +17,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <UseContext>
         <App />
-        <ToastContainer />
+        <Toaster />
       </UseContext>
     </QueryClientProvider>
   </React.StrictMode>
