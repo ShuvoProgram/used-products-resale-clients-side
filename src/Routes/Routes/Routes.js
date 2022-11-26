@@ -9,6 +9,7 @@ import Dashboard from "../../Page/Dashboard/Dashboard";
 import MyProducts from "../../Page/Dashboard/MyProducts";
 import ReportedItem from "../../Page/Dashboard/ReportedItem";
 import Home from "../../Page/Home/Home/Home";
+import Products from "../../Page/Home/Products/Products";
 import Login from "../../Page/Login/Login";
 import Error from "../../Page/Shared/Error/Error";
 import SignUp from "../../Page/SignUp/SignUp";
@@ -21,7 +22,8 @@ const routes = createBrowserRouter([
         {path: '/', element: <Home/>},
         {path: '/login', element: <Login/>},
         {path: '/signup', element: <SignUp/>},
-        {path: '/blog', element: <Blogs/>}
+        {path: '/blog', element: <Blogs/>},
+        { path: '/category/:id', element: <Products />, loader: ({ params }) => fetch(`http://localhost:5000/category/${params.id}`)}
     ],
 errorElement: <Error/>},
 {

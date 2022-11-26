@@ -5,14 +5,15 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LaptopIcon from "@mui/icons-material/Laptop";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import EventIcon from '@mui/icons-material/Event';
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import { addProducts } from "../../api/productApi";
 import { AuthContext } from "../../Context/UseContext";
 import { getImageUrl } from "../../api/ImageUpload";
 import { useQuery } from "react-query";
-import { data } from "autoprefixer";
 import Spinner from "../../Component/Spinner/Spinner";
+import toast from 'react-hot-toast';
 
 const locations = [
   { value: "Dhaka", label: "Dhaka" },
@@ -22,14 +23,25 @@ const locations = [
   { value: "Rongpur", label: "Rongpur" },
   { value: "Pabna", label: "Pabna" },
 ];
+const usedYear = [
+  { value: 1, label: 1 },
+  { value: 2, label: 2 },
+  { value: 3, label: 3 },
+  { value: 4, label: 4 },
+  { value: 5, label: 5 },
+  { value: 7, label: 7 },
+  { value: 8, label: 8 },
+  { value: 9, label: 9 },
+  { value: 10, label: 10 },
+];
 
 const AddProduct = () => {
   const {user} = useContext(AuthContext)
-  const [arrivalDate, setArrivalDate] = useState(new Date());
+  const [arrivalDate] = useState(new Date());
   const [selected, setSelected] = useState("excellent");
 
-  const {data: category = [], refetch, isLoading} = useQuery({
-    queryKey: ['category', data],
+  const {data: category = [], isLoading} = useQuery({
+    queryKey: ['category'],
     queryFn: async () => {
       const res = await fetch(`http://localhost:5000/category/`)
       const data = res.json()
@@ -37,14 +49,13 @@ const AddProduct = () => {
     }
   })
 
+
   if(isLoading){
     return <Spinner/>
   }
-
  
   const handleOptionChange = (e) => {
     setSelected(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -53,24 +64,29 @@ const AddProduct = () => {
     const title = form.title.value;
     const location = form.location.value;
     const purchaseYear = format(arrivalDate, "P");
-    const price = form.price.value;
+    const resellerPrice = form.resellerPrice.value;
+    const originalPrice = form.originalPrice.value;
     const description = form.description.value;
     const phone = form.phone.value;
-    const categoryName = form.brand.value;
-    // const CategoryID = ;
+    // const categoryName = form.brand.value;
+    const yearOfUsed = form.yearOfUsed.value;
+    const categoryID = form.brand.value;
     const condition = selected;
     const img = form.img.files[0];
+    
     getImageUrl(img)
     .then(data => {
       const products = {
         title,
         location,
         purchaseYear,
-        price,
+        yearOfUsed,
+        resellerPrice,
+        originalPrice,
         description,
         phone,
-        categoryName,
-        // CategoryID,
+        // categoryName,
+        categoryID,
         condition,
         img: data,
         host: {
@@ -81,6 +97,8 @@ const AddProduct = () => {
       }
       addProducts(products).then(data => {
         console.log(data)
+        toast.success('Product Added Successfully')
+        form.reset()
       })
     })
     .catch(err => console.log(err))    
@@ -132,7 +150,7 @@ const AddProduct = () => {
                 <p className="block text-sm text-gray-500">Published</p>
                 <DayPicker
                   selected={arrivalDate}
-                  onSelect={setArrivalDate}
+                  // onSelect={setArrivalDate}
                   className="w-1/2 dark:text-white"
                   mode="single"
                   min={1}
@@ -144,17 +162,33 @@ const AddProduct = () => {
           <div className="flex justify-between gap-2 relative">
             <div className="space-y-1 text-sm w-1/2">
               <label htmlFor="price" className="block text-gray-600">
-                Price
+               Reseller Price
               </label>
               <span className="absolute bottom-3">
                 <AttachMoneyIcon className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" />
               </span>
               <input
                 className="w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                name="price"
+                name="resellerPrice"
                 id="price"
                 type="number"
-                placeholder="Price"
+                placeholder="Reseller Price"
+                required
+              />
+            </div>
+            <div className="space-y-1 text-sm w-1/2">
+              <label htmlFor="price" className="block text-gray-600">
+               Original Price
+              </label>
+              <span className="absolute bottom-3">
+                <AttachMoneyIcon className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" />
+              </span>
+              <input
+                className="w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                name="originalPrice"
+                id="price"
+                type="number"
+                placeholder="Original Price"
                 required
               />
             </div>
@@ -190,8 +224,29 @@ const AddProduct = () => {
               placeholder="Product Category"
               required>
               {category.map((opt) => (
-                <option key={opt._id} value={opt.name}>
-                  {opt.name}
+                <option key={opt.value} value={opt._id}>
+                  {opt.categoryName}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="space-y-1 text-sm relative">
+            <label htmlFor="yearOfUsed" className="block text-gray-600">
+              Years of used
+            </label>
+            <span className="absolute bottom-3">
+              <EventIcon className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500" />
+            </span>
+            <select
+              className="select select-bordered w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              // value={brand}
+              name="yearOfUsed"
+              type="text"
+              placeholder="Year Of Used"
+              required>
+              {usedYear.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
                 </option>
               ))}
             </select>
