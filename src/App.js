@@ -4,7 +4,7 @@ import routes from './Routes/Routes/Routes';
 
 function App() {
   return (
-    <div>
+    <div className='scroll-smooth'>
       <RouterProvider router={routes}/>
     </div>
   );

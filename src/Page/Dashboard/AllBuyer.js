@@ -1,4 +1,3 @@
-import { data } from 'autoprefixer';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
@@ -13,7 +12,7 @@ const AllBuyer = () => {
     }
 
     const {data: buyer = [], refetch, isLoading} = useQuery({
-        queryKey: ['buyer', data],
+        queryKey: ['buyer'],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/users/buyer/`)
             const data = res.json()

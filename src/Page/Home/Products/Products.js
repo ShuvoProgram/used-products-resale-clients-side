@@ -27,7 +27,7 @@ const Products = () => {
                                     <p class="mt-1">Posted: {product.purchaseYear}</p>
                                     <p class="mt-1">Author Name: {product.host.name}</p>
                                 </div>
-                                <div>
+                                <div className='mt-2'>
                                     <label className="btn btn-primary" htmlFor="booking-modal" onClick={() => setBooking(product)}>Book Now</label>
                                 </div>
                             </div>

@@ -14,6 +14,7 @@ import { getImageUrl } from "../../api/ImageUpload";
 import { useQuery } from "react-query";
 import Spinner from "../../Component/Spinner/Spinner";
 import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 const locations = [
   { value: "Dhaka", label: "Dhaka" },
@@ -39,6 +40,8 @@ const AddProduct = () => {
   const {user} = useContext(AuthContext)
   const [arrivalDate] = useState(new Date());
   const [selected, setSelected] = useState("excellent");
+
+  const navigate = useNavigate();
 
   const {data: category = [], isLoading} = useQuery({
     queryKey: ['category'],
@@ -96,8 +99,8 @@ const AddProduct = () => {
         }
       }
       addProducts(products).then(data => {
-        console.log(data)
         toast.success('Product Added Successfully')
+        navigate('/dashboard/my-product')
         form.reset()
       })
     })
