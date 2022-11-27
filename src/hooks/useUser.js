@@ -6,7 +6,7 @@ export const useSeller = (email) => {
 
     useEffect(() => {
         if(email){
-            fetch(`http://localhost:5000/users/seller/${email}`)
+            fetch(`${process.env.REACT_APP_API_URL}/users/seller/${email}`)
             .then(res => res.json())
             .then(data => {
                 setIsSeller(data.isSeller);
@@ -23,7 +23,7 @@ export const useAdmin = (email) => {
 
     useEffect(() => {
         if(email){
-            fetch(`http://localhost:5000/users/admin/${email}`)
+            fetch(`${process.env.REACT_APP_API_URL}/users/admin/${email}`)
             .then(res => res.json())
             .then(data => {
                 setIsAdmin(data.isAdmin);

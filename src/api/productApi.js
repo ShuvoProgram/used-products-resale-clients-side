@@ -1,5 +1,5 @@
 export const addProducts = async add => {
-    const url = `http://localhost:5000/products`;
+    const url = `${process.env.REACT_APP_API_URL}/products`;
     
     const res = await fetch(url, {
         method: "POST",
@@ -13,7 +13,7 @@ export const addProducts = async add => {
 }
 
 export const getCategory = async () => {
-    const url = `http://localhost:5000/category/`
+    const url = `${process.env.REACT_APP_API_URL}/category/`
 
     try {
         const response = await fetch(url);

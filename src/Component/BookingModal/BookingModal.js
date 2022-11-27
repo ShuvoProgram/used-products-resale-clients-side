@@ -25,7 +25,7 @@ const BookingModal = ({ booking, setBooking }) => {
       location,
     };
 
-    fetch(`http://localhost:5000/booking`, {
+    fetch(`${process.env.REACT_APP_API_URL}/booking`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

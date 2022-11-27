@@ -13,14 +13,14 @@ const ReportedItem = () => {
     const { data: report = [], refetch } = useQuery({
         queryKey: ['report'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/products/reported`)
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/products/reported`)
             const data = res.json()
             return data;
         }
     })
 
     const handleDeleteProduct = product => {
-        fetch(`http://localhost:5000/products/${product._id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/products/${product._id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`

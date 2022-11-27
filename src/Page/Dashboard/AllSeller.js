@@ -18,14 +18,14 @@ const AllSeller = () => {
   } = useQuery({
     queryKey: ["seller"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/users/seller/`);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/users/seller/`);
       const data = res.json();
       return data;
     },
   });
 
   const handleMakeVerify = (id) => {
-    fetch(`http://localhost:5000/users/seller/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users/seller/${id}`, {
       method: "PUT",
     })
       .then((res) => res.json())
@@ -38,7 +38,7 @@ const AllSeller = () => {
   };
 
   const handleDeleteSeller = (seller) => {
-    fetch(`http://localhost:5000/users/seller/${seller._id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users/seller/${seller._id}`, {
       method: "DELETE",
       headers: {
         authorization: `bearer ${localStorage.getItem("accessToken")}`,

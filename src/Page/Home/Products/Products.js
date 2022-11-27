@@ -11,7 +11,7 @@ const Products = () => {
     console.log(data);
 
     const handleReport = (id) => {
-        fetch(`http://localhost:5000/products/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/products/${id}`, {
             method: "PUT",
         })
             .then((res) => res.json())

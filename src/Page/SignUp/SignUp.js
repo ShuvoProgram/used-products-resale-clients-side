@@ -8,6 +8,7 @@ import { getImageUrl } from '../../api/ImageUpload';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SmallSpinner from '../../Component/Spinner/SmallSpinner';
 import toast from 'react-hot-toast';
+import UseToken from '../../hooks/useToken';
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -34,8 +35,7 @@ const SignUp = () => {
             createUser(data.email, data.password)
                 .then(result => {
                     const user = result.user;
-                    console.log(user)
-                    console.log(user.email)
+                   
                     toast.success('User Created Successfully.')
                     const userInfo = {
                         displayName: data.name,
@@ -61,12 +61,10 @@ const SignUp = () => {
                     setLoading(true)
                     console.error(err)
                 })
-        
-        // })
     }
 
     const saveUser = (userProfile) => {
-        fetch('http://localhost:5000/users', {
+        fetch('${process.env.REACT_APP_API_URL}/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -80,7 +78,6 @@ const SignUp = () => {
     }
 
     function handleChange(e) {
-        console.log(e.target.files);
         setPreview(URL.createObjectURL(e.target.files[0]));
     }
 

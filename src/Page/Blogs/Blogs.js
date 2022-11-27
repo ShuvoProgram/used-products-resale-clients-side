@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const Blogs = () => {
     return (
-        <section className="bg-white dark:bg-gray-900">
+        <section className="bg-white dark:bg-gray-900 h-full">
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

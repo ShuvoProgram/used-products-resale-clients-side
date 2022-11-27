@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { AuthContext } from '../../Context/UseContext';
 import login from '../../assets/Login.png';
+import UseToken from '../../hooks/useToken';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
@@ -13,7 +14,7 @@ const Login = () => {
 
     const [loginError, setLoginError] = useState('')
     const [loginUserEmail, setLoginUserEmail] = useState('');
-    // const [token] = useToken(loginUserEmail);
+    const [token] = UseToken(loginUserEmail);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -24,9 +25,9 @@ const Login = () => {
 
     const from = location.state?.from?.pathname || '/';
 
-    // if (token) {
-    //     navigate(from, { replace: true });
-    // }
+    if (token) {
+        navigate(from, { replace: true });
+    }
 
 
     const handelLogin = data => {
@@ -60,9 +61,30 @@ const Login = () => {
     const handleGoogle = () => {
         signInWithGoogle()
         .then(result => {
-            console.log(result.user);
+            const user = result.user;
+            saveUser(user?.displayName, user?.email, user?.photoURL)
             navigate(from, { replace: true })
         })
+    }
+
+    const saveUser = (name, email, photoUrl, role = "Buyer", verify = "unverified") => {
+        const user = { name, email, role, photoUrl, verify };
+        fetch('${process.env.REACT_APP_API_URL}/users', {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.acknowledged) {
+                    toast.success('User Login Successfully')
+
+                }
+
+            })
     }
 
     return (

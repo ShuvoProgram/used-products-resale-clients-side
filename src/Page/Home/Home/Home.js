@@ -9,7 +9,7 @@ const Home = () => {
     const { data: category = [], refetch, isLoading } = useQuery({
         queryKey: ['category'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/category/`)
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/category/`)
             const data = res.json();
             refetch()
             return data;

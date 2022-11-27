@@ -14,7 +14,7 @@ const MyProducts = () => {
         setDeletingProduct(null);
     }
 
-  const url = `http://localhost:5000/products?email=${user?.email}`;
+  const url = `${process.env.REACT_APP_API_URL}/products?email=${user?.email}`;
 
   const { data: product = [], refetch } = useQuery({
     queryKey: ["product", user?.email],
@@ -27,7 +27,7 @@ const MyProducts = () => {
 
 
     const handleDeleteProduct = product => {
-        fetch(`http://localhost:5000/products/${product._id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/products/${product._id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`

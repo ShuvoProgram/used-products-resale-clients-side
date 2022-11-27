@@ -14,7 +14,7 @@ const AllBuyer = () => {
     const {data: buyer = [], refetch, isLoading} = useQuery({
         queryKey: ['buyer'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users/buyer/`)
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/users/buyer/`)
             const data = res.json()
             return data;
         }
@@ -22,7 +22,7 @@ const AllBuyer = () => {
 
     
     const handleDeleteBuyer = buyer => {
-        fetch(`http://localhost:5000/users/buyer/${buyer._id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/users/buyer/${buyer._id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`

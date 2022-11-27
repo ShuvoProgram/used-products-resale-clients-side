@@ -46,7 +46,7 @@ console.log(user);
   const {data: category = [], isLoading} = useQuery({
     queryKey: ['category'],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/category/`)
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/category/`)
       const data = res.json()
       return data;
     }
@@ -67,8 +67,8 @@ console.log(user);
     const title = form.title.value;
     const location = form.location.value;
     const purchaseYear = format(arrivalDate, "P");
-    const resellerPrice = form.resellerPrice.value;
-    const originalPrice = form.originalPrice.value;
+    const resellerPrice = parseInt(form.resellerPrice.value);
+    const originalPrice = parseInt(form.originalPrice.value);
     const description = form.description.value;
     const phone = form.phone.value;
     // const categoryName = form.brand.value;

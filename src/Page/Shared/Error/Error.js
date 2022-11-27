@@ -1,33 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HiThumbDown } from "react-icons/hi";
-import PrimaryButton from '../../../Component/Button/PrimaryButton';
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 
 const Error = () => {
     return (
-        <section className='flex items-center h-screen p-16 bg-gray-100 text-gray-900'>
-            <div className='container flex flex-col items-center justify-center px-5 mx-auto my-8'>
-                <HiThumbDown className='w-40 h-40 text-blue-700' />
-                <div className='max-w-md text-center'>
-                    <h2 className='mb-8 font-extrabold text-9xl text-gray-500'>
-                        <span className='sr-only'>Error</span>
-                        <div className='flex justify-center items-center h-full'>
-                            4
-                            <div className='w-24 h-24 border-8 border-dashed rounded-full animate-spin mt-3 border-blue-700'></div>
-                            4
-                        </div>
-                    </h2>
-                    <p className='text-2xl font-semibold md:text-3xl mb-8'>
-                        Sorry, we couldn't find this page.
-                    </p>
-                    <Link to='/'>
-                        <PrimaryButton classes='px-8 py-3 font-semibold rounded'>
-                            Back to homepage
-                        </PrimaryButton>
-                    </Link>
-                </div>
+    <>
+    <Navbar/>
+        <section className="flex items-center h-full sm:p-16 bg-white dark:bg-gray-900 dark:text-gray-100">
+            <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8 space-y-8 text-center sm:max-w-md">
+                    <HiThumbDown className='w-40 h-40 text-blue-500 dark:text-gray-600'/>
+                <p className="text-3xl text-gray-800">Looks like our services are currently offline</p>
+                <Link rel="noopener noreferrer" href="#" className="px-8 py-3 bg-blue-500 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">Back to homepage</Link>
             </div>
         </section>
+        <Footer/>
+    </>
     );
 };
 
