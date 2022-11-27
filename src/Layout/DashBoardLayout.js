@@ -35,6 +35,13 @@ const DashBoardLayout = () => {
 
                             <div className="flex flex-col justify-between flex-1 mt-6">
                                 <nav>
+                                    {/* {
+                                        isUser && <>
+                                            <Link to='/dashboard/myorders' className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+                                                <span className="mx-4 font-medium">My Orders</span>
+                                            </Link>
+                                        </>
+                                    } */}
                                     {
                                         isSeller && <>
                                             <Link to='/dashboard/add-product' className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700" href="#">

@@ -92,6 +92,7 @@ const AddProduct = () => {
         categoryID,
         condition,
         img: data,
+        report: false,
         host: {
           name: user?.displayName,
           image: user?.photoURL,

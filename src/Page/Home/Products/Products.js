@@ -1,10 +1,32 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link, useLoaderData } from 'react-router-dom';
 import BookingModal from '../../../Component/BookingModal/BookingModal';
+// import Spinner from '../../../Component/Spinner/Spinner';
 
 const Products = () => {
     const [booking, setBooking] = useState(null)
+    // const [isLoading, setIsLoading] = useState(true);
     const data = useLoaderData();
+
+    const handleReport = (id) => {
+        fetch(`http://localhost:5000/products/${id}`, {
+            method: "PUT",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.modifiedCount > 0) {
+                    toast.success("Make report successful.");
+                    // setIsLoading(false)
+                }
+            });
+    };
+
+    // if(isLoading){
+    //     return <Spinner/>
+    // }
+
+
     return (
         <section class="text-gray-600 body-font">
             <div class="container px-5 py-24 mx-auto">
@@ -27,8 +49,9 @@ const Products = () => {
                                     <p class="mt-1">Posted: {product.purchaseYear}</p>
                                     <p class="mt-1">Author Name: {product.host.name}</p>
                                 </div>
-                                <div className='mt-2'>
+                                <div className='mt-2 flex justify-between'>
                                     <label className="btn btn-primary" htmlFor="booking-modal" onClick={() => setBooking(product)}>Book Now</label>
+                                    <label className="btn btn-primary btn-xs" onClick={() => handleReport(product._id)}>Report</label>
                                 </div>
                             </div>
                         ))

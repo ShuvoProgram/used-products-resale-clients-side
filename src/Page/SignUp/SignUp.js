@@ -49,6 +49,7 @@ const SignUp = () => {
                                 name: user.displayName,
                                 email: user.email,
                                 phone: user.phoneNumber,
+                                status: 'unverified',
                                 role: data.role
                             }
                             saveUser(profileInfo)
