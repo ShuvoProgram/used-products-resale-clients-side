@@ -10,7 +10,8 @@ const Home = () => {
         queryKey: ['category'],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/category/`)
-            const data = res.json()
+            const data = res.json();
+            refetch()
             return data;
         }
     })

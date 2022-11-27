@@ -8,6 +8,7 @@ const Products = () => {
     const [booking, setBooking] = useState(null)
     // const [isLoading, setIsLoading] = useState(true);
     const data = useLoaderData();
+    console.log(data);
 
     const handleReport = (id) => {
         fetch(`http://localhost:5000/products/${id}`, {
@@ -26,6 +27,7 @@ const Products = () => {
     //     return <Spinner/>
     // }
 
+    // console.log(data);
 
     return (
         <section class="text-gray-600 body-font">

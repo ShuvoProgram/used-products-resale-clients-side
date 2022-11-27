@@ -6,11 +6,8 @@ const CTA = () => {
         <section>
             <div className="container flex flex-col items-center px-4 py-12 mx-auto text-center">
                 <h2 className="text-3xl font-bold tracking-tight text-gray-600 dark:text-white">
-                    Try something really different right now.
+                    Our Product using now Android App and Apple App
                 </h2>
-
-                <p className="block max-w-2xl mt-4 text-xl text-gray-500 dark:text-gray-300">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto recusandae tenetur iste quaerat voluptatibus quibusdam nam repudiandae </p>
-
                 <div className="mt-6">
                     <div className="inline-flex w-full overflow-hidden rounded-lg shadow sm:w-auto sm:mx-3">
                         <Link href="#" className="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-600 sm:w-auto">

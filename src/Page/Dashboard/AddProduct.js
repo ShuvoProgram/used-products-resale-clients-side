@@ -40,7 +40,7 @@ const AddProduct = () => {
   const {user} = useContext(AuthContext)
   const [arrivalDate] = useState(new Date());
   const [selected, setSelected] = useState("excellent");
-
+console.log(user);
   const navigate = useNavigate();
 
   const {data: category = [], isLoading} = useQuery({
