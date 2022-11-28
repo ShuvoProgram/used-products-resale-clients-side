@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import BookingModal from '../../../Component/BookingModal/BookingModal';
+import { AuthContext } from '../../../Context/UseContext';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 
-const Product = () => {
+const AllProducts = () => {
+    
     const [booking, setBooking] = useState(null);
+    
 
 
     const url = `${process.env.REACT_APP_API_URL}/product`;
@@ -19,6 +22,10 @@ const Product = () => {
             return data;
         }
     })
+
+
+
+    
 
     const handleReport = (id) => {
         fetch(`${process.env.REACT_APP_API_URL}/products/${id}`, {
@@ -34,10 +41,10 @@ const Product = () => {
     };
 
     return (
-        <section className="text-gray-600 body-font mt-10">
+        <section className="text-gray-600 body-font py-10">
             <div className='flex flex-col items-center'>
-            <h1 className="text-3xl text-blue-600 text-center">Our Products</h1>
-            <hr className='text-gray-600 dark:text-white w-1/4 mt-2'/>
+                <h1 className="text-3xl text-blue-600 text-center">Our Products</h1>
+                <hr className='text-gray-600 dark:text-white w-1/4 mt-2' />
             </div>
             <div className="container px-5 py-16 mx-auto">
                 <div className="flex flex-wrap -m-4">
@@ -58,13 +65,13 @@ const Product = () => {
                                     <p className="mt-1">Year Of Used: {product.yearOfUsed}</p>
                                     <p className="mt-1">Posted: {product.purchaseYear}</p>
                                     <div className='flex mt-1 justify-between'>
-                                        {/* <span className="">Author Name: {product.host.name}</span> */}
-                                        <span className="flex">Verify: <AiOutlineCloseCircle className='ml-2 h-6 w-6 text-red-500' /></span>
+                                    {/* <span className="">Author Name: {product.host.name}</span> */}
+                                        <span className="flex">Verify: <AiOutlineCloseCircle className='ml-2 h-6 w-6 text-red-500'/></span>
                                     </div>
                                 </div>
                                 <div className='mt-2 flex justify-between'>
                                     {
-                                        product.sold === false ? <label className="btn btn-primary" htmlFor="booking-modal" onClick={() => setBooking(product)}>Book Now</label> : <label className='btn btn-true disabled'>Sold</label>
+                                        product.sold === false ?<label className="btn btn-primary" htmlFor="booking-modal" onClick={() => setBooking(product)}>Book Now</label>:  <label className='btn btn-true disabled'>Sold</label>
                                     }
                                     <label className="btn btn-primary btn-xs" onClick={() => handleReport(product._id)}>Report</label>
                                 </div>
@@ -85,4 +92,4 @@ const Product = () => {
     );
 };
 
-export default Product;
+export default AllProducts;

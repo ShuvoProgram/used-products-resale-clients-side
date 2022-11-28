@@ -3,12 +3,11 @@ import toast from 'react-hot-toast';
 import { Link, useLoaderData } from 'react-router-dom';
 import BookingModal from '../../../Component/BookingModal/BookingModal';
 // import Spinner from '../../../Component/Spinner/Spinner';
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 
 const Products = () => {
-    const [booking, setBooking] = useState(null)
-    // const [isLoading, setIsLoading] = useState(true);
+    const [booking, setBooking] = useState(null);
     const data = useLoaderData();
-    console.log(data);
 
     const handleReport = (id) => {
         fetch(`${process.env.REACT_APP_API_URL}/products/${id}`, {
@@ -27,7 +26,7 @@ const Products = () => {
     //     return <Spinner/>
     // }
 
-    // console.log(data);
+    console.log(data);
 
     return (
         <section class="text-gray-600 body-font">
@@ -49,10 +48,15 @@ const Products = () => {
                                     </div>
                                     <p class="mt-1">Year Of Used: {product.yearOfUsed}</p>
                                     <p class="mt-1">Posted: {product.purchaseYear}</p>
-                                    <p class="mt-1">Author Name: {product.host.name}</p>
+                                    <div className='flex mt-1 justify-between'>
+                                        
+                                        <span className="flex">Verify: <AiOutlineCloseCircle className='ml-2 h-6 w-6 text-red-500' /></span>
+                                    </div>
                                 </div>
                                 <div className='mt-2 flex justify-between'>
-                                    <label className="btn btn-primary" htmlFor="booking-modal" onClick={() => setBooking(product)}>Book Now</label>
+                                    {
+                                        product.sold === false ? <label className="btn btn-primary" htmlFor="booking-modal" onClick={() => setBooking(product)}>Book Now</label> : <label className='btn btn-true disabled'>Sold</label>
+                                    }
                                     <label className="btn btn-primary btn-xs" onClick={() => handleReport(product._id)}>Report</label>
                                 </div>
                             </div>

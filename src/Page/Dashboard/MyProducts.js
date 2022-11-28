@@ -8,11 +8,12 @@ import ConfirmationModal from "../Shared/ConfirmationModal/ConfirmationModal";
 const MyProducts = () => {
   const { user } = useContext(AuthContext);
 
-    const [deletingProduct, setDeletingProduct] = useState(null);
+  const [deletingProduct, setDeletingProduct] = useState(null);
+  const [advertiseProduct, setAdvertiseProduct] = useState(null);
 
-    const closeModal = () => {
-        setDeletingProduct(null);
-    }
+  const closeModal = () => {
+    setDeletingProduct(null);
+  };
 
   const url = `${process.env.REACT_APP_API_URL}/products?email=${user?.email}`;
 
@@ -25,22 +26,34 @@ const MyProducts = () => {
     },
   });
 
+  const handleDeleteProduct = (product) => {
+    fetch(`${process.env.REACT_APP_API_URL}/products/${product._id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) refetch();
+        toast.success(`${product.title} deleted successfully`);
+      });
+  };
 
-    const handleDeleteProduct = product => {
-        fetch(`${process.env.REACT_APP_API_URL}/products/${product._id}`, {
-            method: 'DELETE',
-            headers: {
-                authorization: `bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.deletedCount > 0)
-                    refetch();
-                toast.success(`${product.title} deleted successfully`)
-
-            })
-    }
+  const handleAdvertiseProduct = (product) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL}/products/advertisement/${product._id}`,
+      {
+        method: "PUT",
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0){
+          toast.success(`${product.title} advertise successfully`);
+        }
+      });
+  };
   return (
     <section class="text-gray-600 body-font">
       <div class="container px-5 py-24 mx-auto">
@@ -69,33 +82,39 @@ const MyProducts = () => {
                 <p class="mt-1">Year Of Used: {product.yearOfUsed}</p>
                 <p class="mt-1">Posted: {product.purchaseYear}</p>
                 <div>
-                  <span class="mt-1">Author Name: {product.host.name}</span>
+                  {/* <span class="mt-1">Author Name: {product.host.name}</span> */}
                 </div>
               </div>
               <div className="mt-2 flex justify-between">
-                      <label className="btn btn-error" onClick={() => setDeletingProduct(product)}
-                          htmlFor="confirmation-modal">
+                <label
+                  className="btn btn-error"
+                  onClick={() => setDeletingProduct(product)}
+                  htmlFor="confirmation-modal">
                   Delete
                 </label>
-                <label className="btn btn-success" htmlFor="booking-modal">
-                  Advertise
-                </label>
+                {
+                  product.sold === false ? <label
+                    className="btn btn-success"
+                    onClick={() => handleAdvertiseProduct(product)}
+                  >
+                    Advertise
+                  </label> : <label className='btn btn-true disabled'>Advertise</label>
+                }
+                
               </div>
             </div>
           ))}
         </div>
       </div>
-          {
-              deletingProduct && <ConfirmationModal
-                  title={`Are you sure you want to delete?`}
-                  message={`If you delete ${deletingProduct.title}. It cannot be undone.`}
-                  successAction={handleDeleteProduct}
-                  successButtonName="Delete"
-                  modalData={deletingProduct}
-                  closeModal={closeModal}
-              >
-              </ConfirmationModal>
-          }
+      {deletingProduct && (
+        <ConfirmationModal
+          title={`Are you sure you want to delete?`}
+          message={`If you delete ${deletingProduct.title}. It cannot be undone.`}
+          successAction={handleDeleteProduct}
+          successButtonName="Delete"
+          modalData={deletingProduct}
+          closeModal={closeModal}></ConfirmationModal>
+      )}
     </section>
   );
 };

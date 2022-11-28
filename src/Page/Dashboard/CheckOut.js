@@ -1,5 +1,6 @@
 import { useElements, useStripe, CardElement } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const CheckOut = ({booking}) => {
     const [cardError, setCardError] = useState('');
@@ -10,7 +11,7 @@ const CheckOut = ({booking}) => {
 
     const stripe = useStripe();
     const elements = useElements();
-    const { price, email, patient, _id } = booking;
+    const { _id, productID, product, email, price, buyerName } = booking;
 
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
@@ -25,6 +26,19 @@ const CheckOut = ({booking}) => {
             .then((res) => res.json())
             .then((data) => setClientSecret(data.clientSecret));
     }, [price]);
+
+    const handleSold = (id) => {
+        fetch(`${process.env.REACT_APP_API_URL}/products/sold/${id}`, {
+            method: "PUT",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.modifiedCount > 0) {
+                    toast.success("paid successful.");
+                    
+                }
+            });
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -58,8 +72,9 @@ const CheckOut = ({booking}) => {
                 payment_method: {
                     card: card,
                     billing_details: {
-                        name: patient,
+                        name: buyerName,
                         email: email
+
                     },
                 },
             },
@@ -70,7 +85,7 @@ const CheckOut = ({booking}) => {
             return;
         }
         if (paymentIntent.status === "succeeded") {
-            console.log('card info', card);
+            
             // store payment info in the database
             const payment = {
                 price,
@@ -88,7 +103,6 @@ const CheckOut = ({booking}) => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     if (data.insertedId) {
                         setSuccess('Congrats! your payment completed');
                         setTransactionId(paymentIntent.id);
@@ -120,6 +134,7 @@ const CheckOut = ({booking}) => {
                 <button
                     className='btn btn-sm mt-4 btn-primary'
                     type="submit"
+                    onClick={() => handleSold(productID)}
                     disabled={!stripe || !clientSecret || processing}
                 >
                     Pay

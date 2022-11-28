@@ -64,7 +64,7 @@ const SignUp = () => {
     }
 
     const saveUser = (userProfile) => {
-        fetch('${process.env.REACT_APP_API_URL}/users', {
+        fetch(`${process.env.REACT_APP_API_URL}/users`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

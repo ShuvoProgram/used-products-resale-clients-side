@@ -40,7 +40,6 @@ const AddProduct = () => {
   const {user} = useContext(AuthContext)
   const [arrivalDate] = useState(new Date());
   const [selected, setSelected] = useState("excellent");
-console.log(user);
   const navigate = useNavigate();
 
   const {data: category = [], isLoading} = useQuery({
@@ -52,6 +51,7 @@ console.log(user);
     }
   })
 
+  
 
   if(isLoading){
     return <Spinner/>
@@ -92,6 +92,8 @@ console.log(user);
         categoryID,
         condition,
         img: data,
+        advertisement: false,
+        sold: false,
         report: false,
         host: {
           name: user?.displayName,

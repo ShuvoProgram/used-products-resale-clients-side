@@ -7,9 +7,8 @@ import CheckOut from './CheckOut';
 
 const Payment = () => {
     const booking = useLoaderData();
-    console.log(booking)
     const navigation = useNavigation();
-    const { treatment, price, appointmentDate, slot } = booking;
+    const { product, price } = booking;
 
     const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
@@ -17,9 +16,9 @@ const Payment = () => {
         return <Spinner/>
     }
     return (
-        <div>
-            <h3 className="text-3xl">Payment for {treatment}</h3>
-            <p className="text-xl">Please pay <strong>${price}</strong> for your appointment on {appointmentDate} at {slot}</p>
+        <div className='flex flex-col items-center'>
+            <h3 className="text-3xl">Payment for {product}</h3>
+            <p className="text-xl">Please pay <strong>${price}</strong> for your Product</p>
             <div className='w-96 my-12'>
                 <Elements stripe={stripePromise}>
                     <CheckOut

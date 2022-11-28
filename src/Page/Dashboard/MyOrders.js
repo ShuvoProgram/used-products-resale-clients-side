@@ -8,7 +8,6 @@ const MyOrders = () => {
 
     const url = `${process.env.REACT_APP_API_URL}/booking?email=${user?.email}`;
 
-
     const { data: bookings = [] } = useQuery({
         queryKey: ['bookings', user?.email],
         queryFn: async () => {
@@ -18,7 +17,6 @@ const MyOrders = () => {
         }
     })
 
-    console.log(bookings);
 
     return (
         <div>

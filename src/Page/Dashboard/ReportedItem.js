@@ -35,7 +35,7 @@ const ReportedItem = () => {
             })
     }
 
-    console.log(report);
+    // console.log(report);
     return (
         <div className='mx-10'>
             <h1 className="text-2xl">Reported Items</h1>
