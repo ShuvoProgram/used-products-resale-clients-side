@@ -1,3 +1,5 @@
+const axios = require('axios').default;
+
 export const addProducts = async add => {
     const url = `${process.env.REACT_APP_API_URL}/products`;
     
@@ -12,14 +14,15 @@ export const addProducts = async add => {
     return data;
 }
 
+
 export const getCategory = async () => {
     const url = `${process.env.REACT_APP_API_URL}/category/`
 
     try {
-        const response = await fetch(url);
-        const category = response.json()
-        console.log(category);
-        return category;
+        const response = await axios(url);
+        // const category = response.json()
+        console.log(response.data);
+        return response.data;
     } catch (error) {
         console.error(error);
     }
