@@ -11,7 +11,6 @@ import MyProducts from "../../Page/Dashboard/MyProducts";
 import Payment from "../../Page/Dashboard/Payment";
 import ReportedItem from "../../Page/Dashboard/ReportedItem";
 import Home from "../../Page/Home/Home/Home";
-import AllProducts from "../../Page/Home/Products/AllProducts";
 import Products from "../../Page/Home/Products/Products";
 import Login from "../../Page/Login/Login";
 import Error from "../../Page/Shared/Error/Error";
@@ -27,8 +26,7 @@ const routes = createBrowserRouter([
         {path: '/login', element: <Login/>},
         {path: '/signup', element: <SignUp/>},
         {path: '/blog', element: <Blogs/>},
-        {path: '/products', element: <AllProducts/>},
-        { path: '/category/:id', element: <Products />, loader: ({ params }) => fetch(`${process.env.REACT_APP_API_URL}/category/${params.id}`)}
+        { path: '/category/:id', element: <PrivateRoute><Products /></PrivateRoute>, loader: ({ params }) => fetch(`${process.env.REACT_APP_API_URL}/category/${params.id}`)}
     ],
 errorElement: <Error/>},
 {
