@@ -26,7 +26,7 @@ const ProductCard = ({product}) => {
     const { data: user = [], refetch, isLoading } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/user/seller/${product.host.email}`)
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/user/seller/${product.host.email}`)
             const data = await res.json();
             refetch()
             return data;
