@@ -9,7 +9,6 @@ const MyProducts = () => {
   const { user } = useContext(AuthContext);
 
   const [deletingProduct, setDeletingProduct] = useState(null);
-  const [advertiseProduct, setAdvertiseProduct] = useState(null);
 
   const closeModal = () => {
     setDeletingProduct(null);
@@ -55,34 +54,34 @@ const MyProducts = () => {
       });
   };
   return (
-    <section class="text-gray-600 body-font">
-      <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-wrap -m-4">
+    <section className="text-gray-600 body-font">
+      <div className="container px-5 py-24 mx-auto">
+        <div className="flex flex-wrap -m-4">
           {product.map((product) => (
-            <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md border-2 dark:border-gray-600">
-              <Link class="block relative h-48 rounded overflow-hidden">
+            <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md border-2 dark:border-gray-600">
+              <Link className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt={product.title}
-                  class="object-cover object-center w-full h-full block"
+                  className="object-cover object-center w-full h-full block"
                   src={product.img}
                 />
               </Link>
-              <div class="mt-4">
-                <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">
+              <div className="mt-4">
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
                   CATEGORY
                 </h3>
-                <h2 class="text-gray-900 title-font text-lg font-medium">
+                <h2 className="text-gray-900 title-font text-lg font-medium">
                   {product.title}
                 </h2>
-                <p class="mt-1">Location: {product.location}</p>
+                <p className="mt-1">Location: {product.location}</p>
                 <div className="flex justify-between">
-                  <p class="mt-1">ResellerPrice: {product.resellerPrice}</p>
-                  <p class="mt-1">OriginalPrice: {product.originalPrice}</p>
+                  <p className="mt-1">ResellerPrice: {product.resellerPrice}</p>
+                  <p className="mt-1">OriginalPrice: {product.originalPrice}</p>
                 </div>
-                <p class="mt-1">Year Of Used: {product.yearOfUsed}</p>
-                <p class="mt-1">Posted: {product.purchaseYear}</p>
+                <p className="mt-1">Year Of Used: {product.yearOfUsed}</p>
+                <p className="mt-1">Posted: {product.purchaseYear}</p>
                 <div>
-                  {/* <span class="mt-1">Author Name: {product.host.name}</span> */}
+                  {/* <span className="mt-1">Author Name: {product.host.name}</span> */}
                 </div>
               </div>
               <div className="mt-2 flex justify-between">

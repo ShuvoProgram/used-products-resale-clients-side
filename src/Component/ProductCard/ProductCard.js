@@ -5,6 +5,7 @@ import BookingModal from '../BookingModal/BookingModal';
 import toast from 'react-hot-toast';
 import { useQuery } from 'react-query';
 import Spinner from '../Spinner/Spinner';
+import CardLoading from '../Spinner/CardLoading';
 
 const ProductCard = ({product}) => {
     const [booking, setBooking] = useState(null);
@@ -34,25 +35,25 @@ const ProductCard = ({product}) => {
     })
 
     if(isLoading){
-        return <Spinner/>
+        return <CardLoading/>
     }
 
 
     return (
-        <div class="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md border-2 dark:border-gray-600">
-            <Link class="block relative h-48 rounded overflow-hidden">
-                <img alt={product.title} class="object-cover object-center w-full h-full block" src={product.img} />
+        <div className="lg:w-1/4 md:w-1/2 p-4 w-full shadow-md border-2 dark:border-gray-600">
+            <Link className="block relative h-48 rounded overflow-hidden">
+                <img alt={product.title} className="object-cover object-center w-full h-full block" src={product.img} />
             </Link>
-            <div class="mt-4">
-                <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
-                <h2 class="text-gray-900 title-font text-lg font-medium">{product.title}</h2>
-                <p class="mt-1">Location: {product.location}</p>
+            <div className="mt-4">
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
+                <h2 className="text-gray-900 title-font text-lg font-medium">{product.title}</h2>
+                <p className="mt-1">Location: {product.location}</p>
                 <div className='flex justify-between'>
-                    <p class="mt-1">ResellerPrice: {product.resellerPrice}</p>
-                    <p class="mt-1">OriginalPrice: {product.originalPrice}</p>
+                    <p className="mt-1">ResellerPrice: {product.resellerPrice}</p>
+                    <p className="mt-1">OriginalPrice: {product.originalPrice}</p>
                 </div>
-                <p class="mt-1">Year Of Used: {product.yearOfUsed}</p>
-                <p class="mt-1">Posted: {product.purchaseYear}</p>
+                <p className="mt-1">Year Of Used: {product.yearOfUsed}</p>
+                <p className="mt-1">Posted: {product.purchaseYear}</p>
                 <div className='flex mt-1 justify-between'>
                     <span>Author: {user?.name}</span>
                     {

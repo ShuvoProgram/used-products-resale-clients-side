@@ -9,10 +9,9 @@ import UseToken from '../../hooks/useToken';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-
     const { signin, forgetPassword, signInWithGoogle } = useContext(AuthContext)
-
     const [loginError, setLoginError] = useState('')
+    
     const [loginUserEmail, setLoginUserEmail] = useState('');
     // const [token] = UseToken(loginUserEmail);
 
@@ -69,7 +68,7 @@ const Login = () => {
 
     const saveUser = (name, email, photoUrl, role = "Buyer", verify = "unverified") => {
         const user = { name, email, role, photoUrl, verify };
-        fetch('${process.env.REACT_APP_API_URL}/users', {
+        fetch(`${process.env.REACT_APP_API_URL}/users`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

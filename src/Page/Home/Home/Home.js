@@ -41,7 +41,8 @@ return <Spinner/>
                    
                
             }
-
+            <h1 className='text-2xl text-center py-3 font-semibold text-gray-800 dark:text-blue-500'>Category</h1>
+            <hr className='pb-4 w-1/3 mx-auto h-2' />
             <div className="grid grid-cols-1 mx-5 lg:grid-cols-3 gap-4 mt-10">
             {
                 category.map(categories => <CategoryCard key={categories._id} categories={categories}/>)
